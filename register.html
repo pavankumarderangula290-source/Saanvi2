@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Saanvi International School</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .register-wrapper {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .register-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .register-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .register-header h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .register-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .register-form {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-control:hover {
+      border-color: #667eea;
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+    .validation-error {
+      color: #f44336;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .validation-error.show {
+      display: block;
+    }
+
+    .form-group.error .form-control {
+      border-color: #f44336;
+    }
+
+    .btn-register {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-register:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-register:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-register:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .form-divider {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #999;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .login-link a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    .alert {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert-success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border-left: 4px solid #2e7d32;
+    }
+
+    .alert-error {
+      background-color: #ffebee;
+      color: #c62828;
+      border-left: 4px solid #c62828;
+    }
+
+    .alert-info {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border-left: 4px solid #1565c0;
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .btn-register.loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .password-strength {
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    .strength-bar {
+      height: 4px;
+      background-color: #e0e0e0;
+      border-radius: 2px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .strength-indicator {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .strength-indicator.weak {
+      width: 33%;
+      background-color: #f44336;
+    }
+
+    .strength-indicator.medium {
+      width: 66%;
+      background-color: #ff9800;
+    }
+
+    .strength-indicator.strong {
+      width: 100%;
+      background-color: #4caf50;
+    }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .register-header {
+        padding: 30px 20px;
+      }
+
+      .register-header h1 {
+        font-size: 24px;
+      }
+
+      .register-form {
+        padding: 20px;
+      }
+
+      .form-control {
+        padding: 11px 12px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-wrapper">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="register-container">
+      <div class="register-header">
+        <h1>Create Account</h1>
+        <p>Join Saanvi International School</p>
+      </div>
+
+      <div class="register-form">
+        <div id="alertBox" class="alert"></div>
+
+        <form id="registerForm">
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="fullName">Full Name *</label>
+            <input 
+              type="text" 
+              id="fullName" 
+              class="form-control" 
+              placeholder="Enter your full name" 
+              required
+            >
+            <div class="validation-error" id="fullNameError"></div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address *</label>
+            <input 
+              type="email" 
+              id="email" 
+              class="form-control" 
+              placeholder="Enter your email" 
+              required
+            >
+            <div class="validation-error" id="emailError"></div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label" for="password">Password *</label>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-control" 
+              placeholder="Create a strong password" 
+              required
+            >
+            <div class="password-strength">
+              <div class="strength-bar">
+                <div class="strength-indicator" id="strengthIndicator"></div>
+              </div>
+              <span id="strengthText" style="color: #999; font-size: 12px;">Password strength: None</span>
+            </div>
+            <div class="validation-error" id="passwordError"></div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label class="form-label" for="confirmPassword">Confirm Password *</label>
+            <input 
+              type="password" 
+              id="confirmPassword" 
+              class="form-control" 
+              placeholder="Confirm your password" 
+              required
+            >
+            <div class="validation-error" id="confirmPasswordError"></div>
+          </div>
+
+          <!-- Role Selection -->
+          <div class="form-group">
+            <label class="form-label" for="role">Account Type *</label>
+            <select id="role" class="form-control" required>
+              <option value="">-- Select your role --</option>
+              <option value="student">Student</option>
+              <option value="staff">Staff Member</option>
+              <option value="admin">Administrator</option>
+            </select>
+            <div class="validation-error" id="roleError"></div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-register" id="submitBtn">
+            <span class="loading-spinner" id="spinner"></span>
+            <span id="btnText">Create Account</span>
+          </button>
+        </form>
+
+        <div class="form-divider">or</div>
+
+        <div class="login-link">
+          Already have an account? <a href="login.html">Login here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { registerUser, showNotification } from './firebase-auth.js';
+    import { validateEmail, validatePassword } from './firebase-utils.js';
+
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const alertBox = document.getElementById('alertBox');
+
+    // Password strength checker
+    document.getElementById('password').addEventListener('input', (e) => {
+      const password = e.target.value;
+      const strengthIndicator = document.getElementById('strengthIndicator');
+      const strengthText = document.getElementById('strengthText');
+
+      let strength = 'None';
+      let className = '';
+
+      if (password.length >= 8) {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+        const strengthCount = [hasUpperCase, hasLowerCase, hasNumbers, hasSpecialChar].filter(Boolean).length;
+
+        if (strengthCount <= 1) {
+          strength = 'Weak';
+          className = 'weak';
+        } else if (strengthCount <= 2) {
+          strength = 'Medium';
+          className = 'medium';
+        } else {
+          strength = 'Strong';
+          className = 'strong';
+        }
+      } else if (password.length > 0) {
+        strength = 'Too Short';
+      }
+
+      strengthIndicator.className = `strength-indicator ${className}`;
+      strengthText.textContent = `Password strength: ${strength}`;
+    });
+
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const role = document.getElementById('role').value;
+
+      // Clear previous errors
+      document.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
+      document.querySelectorAll('.validation-error').forEach(error => {
+        error.classList.remove('show');
+        error.textContent = '';
+      });
+
+      // Validate Full Name
+      if (fullName.length < 2) {
+        showError('fullName', 'Full name must be at least 2 characters');
+        isValid = false;
+      }
+
+      // Validate Email
+      if (!validateEmail(email)) {
+        showError('email', 'Please enter a valid email address');
+        isValid = false;
+      }
+
+      // Validate Password
+      if (!validatePassword(password)) {
+        showError('password', 'Password must be at least 6 characters');
+        isValid = false;
+      }
+
+      // Validate Confirm Password
+      if (password !== confirmPassword) {
+        showError('confirmPassword', 'Passwords do not match');
+        isValid = false;
+      }
+
+      // Validate Role
+      if (!role) {
+        showError('role', 'Please select an account type');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    function showError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const errorBox = document.getElementById(`${fieldId}Error`);
+      const formGroup = field.closest('.form-group');
+
+      formGroup.classList.add('error');
+      errorBox.textContent = message;
+      errorBox.classList.add('show');
+    }
+
+    function showAlert(message, type = 'info') {
+      alertBox.className = `alert show alert-${type}`;
+      alertBox.textContent = message;
+    }
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!validateForm()) {
+        showAlert('Please fix the errors above', 'error');
+        return;
+      }
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      document.getElementById('spinner').style.display = 'inline-block';
+      document.getElementById('btnText').textContent = 'Creating account...';
+
+      // Call Firebase registration
+      try {
+        registerUser(email, password, fullName, role);
+      } catch (error) {
+        console.error('Registration error:', error);
+        submitBtn.disabled = false;
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('btnText').textContent = 'Create Account';
+        showAlert(error.message || 'Registration failed. Please try again.', 'error');
+      }
+    });
+
+    // Real-time validation
+    document.getElementById('fullName').addEventListener('blur', () => {
+      const value = document.getElementById('fullName').value.trim();
+      if (value && value.length < 2) {
+        showError('fullName', 'Full name must be at least 2 characters');
+      }
+    });
+
+    document.getElementById('email').addEventListener('blur', () => {
+      const value = document.getElementById('email').value.trim();
+      if (value && !validateEmail(value)) {
+        showError('email', 'Please enter a valid email address');
+      }
+    });
+
+    document.getElementById('password').addEventListener('blur', () => {
+      const value = document.getElementById('password').value;
+      if (value && !validatePassword(value)) {
+        showError('password', 'Password must be at least 6 characters');
+      }
+    });
+
+    document.getElementById('confirmPassword').addEventListener('blur', () => {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      if (confirmPassword && password !== confirmPassword) {
+        showError('confirmPassword', 'Passwords do not match');
+      }
+    });
+  </script>
+</body>
+</html>
