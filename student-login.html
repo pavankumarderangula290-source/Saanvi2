@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login - Saanvi International School</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .login-header h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .login-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .login-form-container {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-control:hover {
+      border-color: #667eea;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-login:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert-error {
+      background-color: #ffebee;
+      color: #c62828;
+      border-left: 4px solid #c62828;
+    }
+
+    .alert-info {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border-left: 4px solid #1565c0;
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .btn-login.loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-box {
+      background: #f5f7fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #764ba2;
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .login-header {
+        padding: 30px 20px;
+      }
+
+      .login-header h1 {
+        font-size: 24px;
+      }
+
+      .login-form-container {
+        padding: 20px;
+      }
+
+      .form-control {
+        padding: 11px 12px;
+        font-size: 16px;
+      }
+
+      .info-box {
+        font-size: 12px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← Back to Home</a>
+  
+  <div class="login-wrapper">
+    <div class="login-container">
+      <div class="login-header">
+        <h1>Student Portal</h1>
+        <p>Sign in to view your results</p>
+      </div>
+
+      <div class="login-form-container">
+        <div class="info-box">
+          <strong>📝 Demo Credentials:</strong>
+          Student ID: STU123456<br>
+          Passcode: 1234
+        </div>
+
+        <div id="loginAlert" class="alert"></div>
+
+        <form id="studentLoginForm">
+          <div class="form-group">
+            <label class="form-label" for="studentId">Student ID</label>
+            <input 
+              type="text" 
+              id="studentId" 
+              class="form-control" 
+              placeholder="e.g. STU123456" 
+              required
+            >
+            <small style="color: #999; font-size: 12px; margin-top: 4px; display: block;">
+              Your unique student ID (provided by school)
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="passcode">Passcode</label>
+            <input 
+              type="password" 
+              id="passcode" 
+              class="form-control" 
+              placeholder="Enter your passcode" 
+              required
+            >
+            <small style="color: #999; font-size: 12px; margin-top: 4px; display: block;">
+              4-digit passcode provided by your school
+            </small>
+          </div>
+
+          <button type="submit" class="btn-login" id="loginBtn">
+            <span class="loading-spinner" id="spinner"></span>
+            <span id="btnText">Login</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { verifyStudentLogin, getStudentProfile } from './firebase-student.js';
+
+    const form = document.getElementById('studentLoginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const alert = document.getElementById('loginAlert');
+
+    function showAlert(message, type = 'error') {
+      alert.className = `alert show alert-${type}`;
+      alert.textContent = message;
+    }
+
+    function hideAlert() {
+      alert.classList.remove('show');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlert();
+
+      const studentId = document.getElementById('studentId').value.trim().toUpperCase();
+      const passcode = document.getElementById('passcode').value;
+
+      if (!studentId) {
+        showAlert('Please enter your Student ID');
+        return;
+      }
+
+      if (!passcode) {
+        showAlert('Please enter your Passcode');
+        return;
+      }
+
+      // Show loading
+      loginBtn.disabled = true;
+      document.getElementById('spinner').style.display = 'inline-block';
+      document.getElementById('btnText').textContent = 'Logging in...';
+
+      try {
+        // Verify login
+        const student = await verifyStudentLogin(studentId, passcode);
+        
+        console.log('Login successful:', student);
+
+        // Store session in localStorage
+        localStorage.setItem('studentSession', JSON.stringify({
+          id: student.id,
+          name: student.name,
+          class: student.class,
+          rollNumber: student.rollNumber,
+          loginTime: new Date().toISOString()
+        }));
+
+        showAlert(`Welcome, ${student.name}!`, 'info');
+        
+        // Redirect to student dashboard after 1.5 seconds
+        setTimeout(() => {
+          window.location.href = 'student-dashboard-firebase.html';
+        }, 1500);
+
+      } catch (error) {
+        console.error('Login error:', error);
+        showAlert(error.message || 'Login failed. Please check your credentials.');
+        
+        // Re-enable button
+        loginBtn.disabled = false;
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('btnText').textContent = 'Login';
+      }
+    });
+  </script>
+</body>
+</html>
